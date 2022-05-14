@@ -77,6 +77,7 @@ def run_bot(r, comments_replied_to):
                 id = str(comment.author)
                 r.redditor(id).message(subject = 'EXWAY SUPPORT TEAM', message = 'Hey there! Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :). Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/')
                 print("Replied to comment " + comment.id)
+                print("Receiver was: " + id)
                 comments_replied_to.append(comment.id)
                 reddit.insert_one({ "id": comment.id })
             except Exception as e:
