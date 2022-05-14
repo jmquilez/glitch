@@ -59,12 +59,13 @@ err_ans = []
 def run_bot(r, comments_replied_to):
     print("Searching last 1,000 comments")
     
-    url = "https://www.reddit.com/r/allrandom69/comments/uondja/exway_bot/"
+    #url = "https://www.reddit.com/r/allrandom69/comments/uondja/exway_bot/"
+    url = "https://www.reddit.com/r/ElectricSkateboarding/comments/n28k7u/recommendations_and_suggestions/"
     submission = r.submission(url=url)
     submission.comments.replace_more(limit=None)
     for comment in submission.comments.list():
 
-        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652534141.0:
+        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652536516.0:
         #and comment.author != r.redditor('Exway_hawk_eye') :
             print("comment found")
             print(comment.body)
