@@ -79,7 +79,7 @@ def run_bot(r, comments_replied_to):
                 print("Replied to comment " + comment.id)
                 print("Receiver was: " + id)
                 comments_replied_to.append(comment.id)
-                reddit.insert_one({ "id": comment.id, "author": comment.author, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": "None"})
+                reddit.insert_one({ "id": comment.id, "author": comment.author.name, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": "None"})
             except Exception as e:
                 print(err_ans)
                 corr = False
@@ -91,7 +91,7 @@ def run_bot(r, comments_replied_to):
                             if i["n"] >= 3:
                                 err_ans.remove(i)
                                 comments_replied_to.append(comment.id)
-                                reddit.insert_one({ "id": comment.id, "author": comment.author, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": str(e)})
+                                reddit.insert_one({ "id": comment.id, "author": comment.author.name, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": str(e)})
                     if corr == False:
                         err_ans.append({"id": comment.id, "n": 0})
                 else:
