@@ -32,13 +32,20 @@ reddit = db.reddit
 
 def bot_login():
     print("Logging in...")
-    r = praw.Reddit(username="exway_helper",
+    """r = praw.Reddit(username="exway_helper",
                     password="shotsXAEA-XII",
                     client_id="4FtGMK4rMK88zqRaEuRQ1A",
                     client_secret="i98VmtpRIO_XI6r5HNV5sI9jIRe17A",
                     user_agent="exway_helper",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
-    )
+    )"""
+    r = praw.Reddit(username="exway_assistance",
+                    password="shotsXAEA-XII",
+                    client_id="h4cGWai5sLcMT5GMyCacUw",
+                    client_secret="mfZaY_rfN2AiRzqM5Tpef4P9FR0_mw",
+                    user_agent="exway_assistance",
+                    redirect_uri="https://exway-hawk-eye.herokuapp.com/"
+                    )
     print(r.user.me())
     if r:
         print("Logged in!")
