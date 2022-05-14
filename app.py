@@ -41,8 +41,8 @@ def bot_login():
     )"""
     r = praw.Reddit(username="exway_assistance",
                     password="shotsXAEA-XII",
-                    client_id="h4cGWai5sLcMT5GMyCacUw",
-                    client_secret="mfZaY_rfN2AiRzqM5Tpef4P9FR0_mw",
+                    client_id="x5lxnULe7oaYw-takx7uBQ",
+                    client_secret="4BzMjGh10NWevxtnxb9m07Qv1HjUlg",
                     user_agent="exway_assistance",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )
