@@ -28,7 +28,7 @@ except Exception as e:
     print(e)
 
 db = client.BigData
-reddit = db.reddit
+reddit = db.r1
 
 def bot_login():
     print("Logging in...")
@@ -66,7 +66,7 @@ def run_bot(r, comments_replied_to):
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
         #print(comment.body)
-        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652536516.0:
+        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
         #and comment.author != r.redditor('Exway_hawk_eye') :
             print("comment found")
             print(comment.body)
