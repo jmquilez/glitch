@@ -65,7 +65,7 @@ def run_bot(r, comments_replied_to):
     submission.comment_sort = 'new'
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
-        print(comment.body)
+        #print(comment.body)
         if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652536516.0:
         #and comment.author != r.redditor('Exway_hawk_eye') :
             print("comment found")
