@@ -54,6 +54,8 @@ def bot_login():
 
     return r
 
+err_ans = []
+
 def run_bot(r, comments_replied_to):
     print("Searching last 1,000 comments")
     
@@ -62,9 +64,11 @@ def run_bot(r, comments_replied_to):
     submission.comments.replace_more(limit=None)
     for comment in submission.comments.list():
 
-        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.author != r.redditor('Exway_hawk_eye'):
+        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652534141.0:
+        #and comment.author != r.redditor('Exway_hawk_eye') :
             print("comment found")
             print(comment.body)
+            print(comment.created_utc)
             print("String with \"exway\" found in comment (id) " + comment.id)
             
             try:
@@ -74,8 +78,25 @@ def run_bot(r, comments_replied_to):
                 comments_replied_to.append(comment.id)
                 reddit.insert_one({ "id": comment.id })
             except Exception as e:
+                print(err_ans)
+                corr = False
+                if len(err_ans) > 0:
+                    for i in err_ans:
+                        if i["id"] == comment.id:
+                            corr = True
+                            i["n"]+=1
+                            if i["n"] >= 3:
+                                err_ans.remove(i)
+                                comments_replied_to.append(comment.id)
+                                reddit.insert_one({ "id": comment.id })
+                    if corr == False:
+                        err_ans.append({"id": comment.id, "n": 0})
+                else:
+                    err_ans.append({"id": comment.id, "n": 0})
+
                 print("Exception error, retrying: ")
                 print(e)
+                print(err_ans)
         
     print("Search Completed.")
     print("Sleeping for 10 seconds...")
@@ -104,3 +125,5 @@ Thread(target = func).start()
 if __name__ == "__main__":
     app.run(use_reloader=False)
     
+#1652534114.0
+#1652534141.0
