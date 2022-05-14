@@ -62,9 +62,10 @@ def run_bot(r, comments_replied_to):
     #url = "https://www.reddit.com/r/allrandom69/comments/uondja/exway_bot/"
     url = "https://www.reddit.com/r/ElectricSkateboarding/comments/n28k7u/recommendations_and_suggestions/"
     submission = r.submission(url=url)
-    submission.comments.replace_more(limit=None)
+    submission.comment_sort = 'new'
+    submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
-
+        print(comment.body)
         if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652536516.0:
         #and comment.author != r.redditor('Exway_hawk_eye') :
             print("comment found")
