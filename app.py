@@ -32,18 +32,18 @@ reddit = db.r1
 
 def bot_login():
     print("Logging in...")
-    """r = praw.Reddit(username="exway_helper",
-                    password="shotsXAEA-XII",
-                    client_id="4FtGMK4rMK88zqRaEuRQ1A",
-                    client_secret="i98VmtpRIO_XI6r5HNV5sI9jIRe17A",
-                    user_agent="exway_helper",
-                    redirect_uri="https://exway-hawk-eye.herokuapp.com/"
-    )"""
-    r = praw.Reddit(username="exway_assistance",
+    """r = praw.Reddit(username="exway_assistance",
                     password="exway284agc",
                     client_id="x5lxnULe7oaYw-takx7uBQ",
                     client_secret="4BzMjGh10NWevxtnxb9m07Qv1HjUlg",
                     user_agent="exway_assistance",
+                    redirect_uri="https://exway-hawk-eye.herokuapp.com/"
+                    )"""
+    r = praw.Reddit(username="exway-bot",
+                    password="exway284agc",
+                    client_id="K06i7IvOOeOCs-FcOaU_rw",
+                    client_secret="PxWkh4gz2LSNpSq-OBBwFN1gfiPPeg",
+                    user_agent="exway-bot",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )
     print(r.user.me())
@@ -59,15 +59,14 @@ err_ans = []
 def run_bot(r, comments_replied_to):
     print("Searching last 1,000 comments")
     
-    #url = "https://www.reddit.com/r/allrandom69/comments/uondja/exway_bot/"
     url = "https://www.reddit.com/r/ElectricSkateboarding/comments/n28k7u/recommendations_and_suggestions/"
     submission = r.submission(url=url)
     submission.comment_sort = 'new'
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
-        #print(comment.body)
+        
         if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
-        #and comment.author != r.redditor('Exway_hawk_eye') :
+        
             print("comment found")
             print(comment.body)
             print(comment.created_utc)
@@ -127,6 +126,3 @@ Thread(target = func).start()
  
 if __name__ == "__main__":
     app.run(use_reloader=False)
-    
-#1652534114.0
-#1652534141.0
