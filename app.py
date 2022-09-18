@@ -7,7 +7,9 @@ import pymongo
 from threading import Thread
 import certifi
 from asyncpraw.models import MoreComments
-
+from Reddit_ChatBot_Python import ChatBot, RedditAuthentication
+from Reddit_ChatBot_Python import CustomType, Snoo, Reaction
+import ssl
 
 app = Flask(__name__)
  
@@ -19,6 +21,12 @@ def home_view():
 conn_str = "mongodb+srv://Exway_hawk_eye:shotsXAEA-XII12@cluster0.nqljd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 client = pymongo.MongoClient(conn_str, tlsCAFile=certifi.where(), serverSelectionTimeoutMS=5000)
+
+reddit_authentication = RedditAuthentication.PasswordAuth(reddit_username="Random_usersfx", reddit_password="ESTAFADOR45", twofa=None)
+
+chatbot = ChatBot(print_chat=True, store_session=True, log_websocket_frames=False, authentication=reddit_authentication)
+
+#chatbot.enable_rate_limiter(max_calls=23, period=1.5)
 
 try:
     print("CONNECTED TO DB SUCCESSFULLY!")
@@ -40,7 +48,7 @@ def bot_login():
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )"""
     r = praw.Reddit(username="exway-helper",
-                    password="exway284agc",
+                    password="shotsXAEA-XII12",
                     client_id="JxdBVsEQbWMLG9XAAnePog",
                     client_secret="gB7IjdnzFzBlShmJ0Qf8T9tojyNraA",
                     user_agent="exway-helper",
@@ -66,7 +74,7 @@ def run_bot(r, comments_replied_to):
     for comment in submission.comments.list():
         
         if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
-        
+            
             print("comment found")
             print(comment.body)
             print(comment.created_utc)
@@ -74,7 +82,8 @@ def run_bot(r, comments_replied_to):
             
             try:
                 id = str(comment.author)
-                r.redditor(id).message(subject = 'EXWAY SUPPORT TEAM', message = 'Hey there! Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :). Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/')
+                #r.redditor(id).message(subject = 'EXWAY SUPPORT TEAM', message = 'Hey there! Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :). Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/')
+                dm1(id)
                 print("Replied to comment " + comment.id)
                 print("Receiver was: " + id)
                 comments_replied_to.append(comment.id)
@@ -119,10 +128,34 @@ comments_replied_to = get_saved_comments()
 print(comments_replied_to)
 
 def func():
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+    # Legacy Python that doesn't verify HTTPS certificates by default
+        pass
+    else:
+    # Handle target environment that doesn't support HTTPS verification
+        ssl._create_default_https_context = _create_unverified_https_context
+    
     while True:
         run_bot(r, comments_replied_to)
 
+"""@chatbot.event.on_ready
+def dm(_):
+    print('GOING ON')
+    dm_channel = chatbot.create_direct_channel("New_Finalizer_28")
+    chatbot.send_message('Hey there!', dm_channel.channel_url)
+    chatbot.send_message('Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :)', dm_channel.channel_url)
+    chatbot.send_message('Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/', dm_channel.channel_url)"""
+
+def dm1(id):
+    dm_channel = chatbot.create_direct_channel(id)
+    chatbot.send_message('Hey there!', dm_channel.channel_url)
+    chatbot.send_message('Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :)', dm_channel.channel_url)
+    chatbot.send_message('Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/', dm_channel.channel_url)
+
 Thread(target = func).start()
+chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
  
 if __name__ == "__main__":
     app.run(use_reloader=False)
