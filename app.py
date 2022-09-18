@@ -39,11 +39,11 @@ def bot_login():
                     user_agent="exway_assistance",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )"""
-    r = praw.Reddit(username="exway-bot",
+    r = praw.Reddit(username="exway-helper",
                     password="exway284agc",
                     client_id="JxdBVsEQbWMLG9XAAnePog",
                     client_secret="gB7IjdnzFzBlShmJ0Qf8T9tojyNraA",
-                    user_agent="exway-bot",
+                    user_agent="exway-helper",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )
     print(r.user.me())
