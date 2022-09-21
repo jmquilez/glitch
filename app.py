@@ -75,7 +75,7 @@ def run_bot(r, comments_replied_to, chats_replied_to):
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
         id = str(comment.author)
-        if re.search("Exway", comment.body, flags=re.I) and comment.id not in chats_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
+        if re.search("Exway", comment.body, flags=re.I) and comment.id not in chats_replied_to and comment.author != r.user.me() and comment.created_utc > 1663751982.0:
             print("comment found-chat")
             
             try:
