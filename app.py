@@ -37,6 +37,7 @@ except Exception as e:
 
 db = client.BigData
 reddit = db.r1
+chat = db.r2
 
 def bot_login():
     print("Logging in...")
@@ -63,8 +64,9 @@ def bot_login():
     return r
 
 err_ans = []
+chat_err_ans = []
 
-def run_bot(r, comments_replied_to):
+def run_bot(r, comments_replied_to, chats_replied_to):
     print("Searching last 1,000 comments")
     
     url = "https://www.reddit.com/r/ElectricSkateboarding/comments/n28k7u/recommendations_and_suggestions/"
@@ -72,6 +74,36 @@ def run_bot(r, comments_replied_to):
     submission.comment_sort = 'new'
     submission.comments.replace_more(limit=0)
     for comment in submission.comments.list():
+        id = str(comment.author)
+        if re.search("Exway", comment.body, flags=re.I) and comment.id not in chats_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
+            print("comment found-chat")
+            
+            try:
+                dm1(id)
+                print("Chatted to comment " + comment.id)
+                print("Chat receiver was: " + id)
+                chats_replied_to.append(comment.id)
+                chat.insert_one({ "id": comment.id, "author": comment.author.name, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": "None"})
+            except Exception as e:
+                print(chat_err_ans)
+                cors = False
+                if len(chat_err_ans) > 0:
+                    for i in chat_err_ans:
+                        if i["id"] == comment.id:
+                            cors = True
+                            i["n"]+=1
+                            if i["n"] >= 3:
+                                chat_err_ans.remove(i)
+                                chats_replied_to.append(comment.id)
+                                chat.insert_one({ "id": comment.id, "author": comment.author.name, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": str(e)})
+                    if corr == False:
+                        chat_err_ans.append({"id": comment.id, "n": 0})
+                else:
+                    chat_err_ans.append({"id": comment.id, "n": 0})
+
+                print("Exception error, retrying: ")
+                print(e)
+                print(chat_err_ans)
         
         if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
             
@@ -80,9 +112,8 @@ def run_bot(r, comments_replied_to):
             print(comment.created_utc)
             print("String with \"exway\" found in comment (id) " + comment.id)
             
+            
             try:
-                id = str(comment.author)
-                dm1(id)
                 r.redditor(id).message(subject = 'EXWAY SUPPORT TEAM', message = 'Hey there! Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :). Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/')
                 print("Replied to comment " + comment.id)
                 print("Receiver was: " + id)
@@ -123,9 +154,18 @@ def get_saved_comments():
 
     return comments_replied_to
 
+def get_saved_chats():
+    comments_replied_to = []
+    found = chat.find()
+    for i in found:
+        comments_replied_to.append(i["id"])
+
+    return comments_replied_to
+
 
 r = bot_login()
 comments_replied_to = get_saved_comments()
+chats_replied_to = get_saved_chats()
 print(comments_replied_to)
 
 def func():
@@ -139,7 +179,7 @@ def func():
         ssl._create_default_https_context = _create_unverified_https_context
     
     while True:
-        run_bot(r, comments_replied_to)
+        run_bot(r, comments_replied_to, chats_replied_to)
 
 """@chatbot.event.on_ready
 def dm(_):
