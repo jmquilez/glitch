@@ -22,7 +22,7 @@ conn_str = "mongodb+srv://Exway_hawk_eye:shotsXAEA-XII12@cluster0.nqljd.mongodb.
 
 client = pymongo.MongoClient(conn_str, tlsCAFile=certifi.where(), serverSelectionTimeoutMS=5000)
 
-reddit_authentication = RedditAuthentication.PasswordAuth(reddit_username="Random_usersfx", reddit_password="ESTAFADOR45", twofa=None)
+reddit_authentication = RedditAuthentication.PasswordAuth(reddit_username="exway-helper", reddit_password="shotsXAEA-XII12", twofa=None)
 
 chatbot = ChatBot(print_chat=True, store_session=True, log_websocket_frames=False, authentication=reddit_authentication)
 
@@ -82,8 +82,8 @@ def run_bot(r, comments_replied_to):
             
             try:
                 id = str(comment.author)
-                #r.redditor(id).message(subject = 'EXWAY SUPPORT TEAM', message = 'Hey there! Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :). Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/')
                 dm1(id)
+                r.redditor(id).message(subject = 'EXWAY SUPPORT TEAM', message = 'Hey there! Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :). Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/')
                 print("Replied to comment " + comment.id)
                 print("Receiver was: " + id)
                 comments_replied_to.append(comment.id)
@@ -108,6 +108,7 @@ def run_bot(r, comments_replied_to):
                 print("Exception error, retrying: ")
                 print(e)
                 print(err_ans)
+                
         
     print("Search Completed.")
     print("Sleeping for 10 seconds...")
