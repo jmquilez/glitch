@@ -96,7 +96,7 @@ def run_bot(r, comments_replied_to, chats_replied_to):
                                 chat_err_ans.remove(i)
                                 chats_replied_to.append(comment.id)
                                 chat.insert_one({ "id": comment.id, "author": comment.author.name, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": str(e)})
-                    if corr == False:
+                    if cors == False:
                         chat_err_ans.append({"id": comment.id, "n": 0})
                 else:
                     chat_err_ans.append({"id": comment.id, "n": 0})
