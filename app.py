@@ -22,7 +22,9 @@ conn_str = "mongodb+srv://Exway_hawk_eye:shotsXAEA-XII12@cluster0.nqljd.mongodb.
 
 client = pymongo.MongoClient(conn_str, tlsCAFile=certifi.where(), serverSelectionTimeoutMS=5000)
 
-reddit_authentication = RedditAuthentication.PasswordAuth(reddit_username="exway-helper", reddit_password="shotsXAEA-XII12", twofa=None)
+#reddit_authentication = RedditAuthentication.PasswordAuth(reddit_username="exway-helper", reddit_password="shotsXAEA-XII12", twofa=None)
+
+reddit_authentication = RedditAuthentication.PasswordAuth(reddit_username="exway-mailer", reddit_password="exway284agc", twofa=None)
 
 chatbot = ChatBot(print_chat=True, store_session=True, log_websocket_frames=False, authentication=reddit_authentication)
 
@@ -48,11 +50,18 @@ def bot_login():
                     user_agent="exway_assistance",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )"""
-    r = praw.Reddit(username="exway-helper",
+    """r = praw.Reddit(username="exway-helper",
                     password="shotsXAEA-XII12",
                     client_id="JxdBVsEQbWMLG9XAAnePog",
                     client_secret="gB7IjdnzFzBlShmJ0Qf8T9tojyNraA",
                     user_agent="exway-helper",
+                    redirect_uri="https://exway-hawk-eye.herokuapp.com/"
+                    )"""
+    r = praw.Reddit(username="exway-mailer",
+                    password="exway284agc",
+                    client_id="ZWAU7J8n4DlbuoLPhUD4zw",
+                    client_secret="z6NXNWwRE3y-eIO26_8kzGf5XdxbBQ",
+                    user_agent="exway-mailer",
                     redirect_uri="https://exway-hawk-eye.herokuapp.com/"
                     )
     print(r.user.me())
@@ -92,7 +101,7 @@ def run_bot(r, comments_replied_to, chats_replied_to):
                         if i["id"] == comment.id:
                             cors = True
                             i["n"]+=1
-                            if i["n"] >= 3:
+                            if i["n"] >= 1:
                                 chat_err_ans.remove(i)
                                 chats_replied_to.append(comment.id)
                                 chat.insert_one({ "id": comment.id, "author": comment.author.name, "url": comment.permalink, "timestamp": comment.created_utc, "err_message": str(e)})
@@ -101,11 +110,11 @@ def run_bot(r, comments_replied_to, chats_replied_to):
                 else:
                     chat_err_ans.append({"id": comment.id, "n": 0})
 
-                print("Exception error, retrying: ")
+                print("Exception error in chat, retrying: ")
                 print(e)
                 print(chat_err_ans)
         
-        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1652545159.0:
+        if re.search("Exway", comment.body, flags=re.I) and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.created_utc > 1663751982.0:
             
             print("comment found")
             print(comment.body)
