@@ -207,5 +207,6 @@ def dm1(id):
 if __name__ == "__main__":
     puerto = int(os.environ.get("PORT", 5000))
     app.run(use_reloader=False, host='0.0.0.0', port=puerto)
-    Thread(target = func).start()
-    chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
+    
+Thread(target = func).start()
+chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
