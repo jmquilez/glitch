@@ -190,6 +190,9 @@ def func():
     while True:
         run_bot(r, comments_replied_to, chats_replied_to)
 
+def func1():
+    chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
+
 """@chatbot.event.on_ready
 def dm(_):
     print('GOING ON')
@@ -209,4 +212,4 @@ if __name__ == "__main__":
     app.run(use_reloader=False, host='0.0.0.0', port=puerto)
     
 Thread(target = func).start()
-chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
+Thread(target = func1).start()
