@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:${PORT} --port=$PORT app:app --workers 1 --preload --timeout 0
+web: gunicorn --bind 0.0.0.0:$PORT app:app --workers 1 --preload --timeout 0
