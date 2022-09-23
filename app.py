@@ -208,4 +208,4 @@ Thread(target = func).start()
 chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
  
 if __name__ == "__main__":
-    app.run(use_reloader=False)
+    app.run(use_reloader=False, port=os.environ.get("PORT", 5000), host='0.0.0.0')
