@@ -204,9 +204,8 @@ def dm1(id):
     chatbot.send_message('Thanks for your support to Exway. If you end up buying a board and you ever have a problem just pm u/alxpht or reply here. Thanks bro :)', dm_channel.channel_url)
     chatbot.send_message('Oh and btw it helps me a lot if you use my promo code: www.reddit.com/r/Exway/comments/jlh9p2/disc0unts_on_exway_boards_updated/', dm_channel.channel_url)
 
-Thread(target = func).start()
-chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
- 
 if __name__ == "__main__":
     puerto = int(os.environ.get("PORT", 5000))
     app.run(use_reloader=False, host='0.0.0.0', port=puerto)
+    Thread(target = func).start()
+    chatbot.run_4ever(auto_reconnect=True, disable_ssl_verification=True)
